@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production builds
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env*.local
+.env.development
+.env.production
+.env.test
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Database & generated artifacts
+.prisma/
+*.db
+*.sqlite
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Cache & Coverage
+.cache/
+coverage/
+.turbo/

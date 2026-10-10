@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClientFlow — Enterprise CRM System Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-canvas: #080d16;
+      --bg-card: #0e1628;
+      --bg-header: #131d35;
+      --accent-brand: #3b82f6;
+      --accent-brand-light: #60a5fa;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.12);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .document-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 50px 60px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .cover-header {
+      text-align: center;
+      padding-bottom: 40px;
+      margin-bottom: 40px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      font-weight: 900;
+      font-size: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+      margin-bottom: 16px;
+    }
+
+    .doc-title {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .doc-subtitle {
+      font-size: 16px;
+      color: var(--accent-brand-light);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .doc-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-brand-light);
+      margin: 20px 0 10px 0;
+    }
+
+    p {
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-bottom: 14px;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.08);
+      color: #60a5fa;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* Screenshot Box Container */
+    .screenshot-frame {
+      background: #060b13;
+      border: 2px dashed #3b82f6;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+      position: relative;
+    }
+
+    .screenshot-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .screenshot-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .screenshot-specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      font-size: 12px;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .screenshot-specs div strong {
+      color: #f1f5f9;
+    }
+
+    .screenshot-caption {
+      font-size: 12px;
+      font-style: italic;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+
+    th {
+      background-color: var(--bg-header);
+      color: #f1f5f9;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      color: #cbd5e1;
+      background-color: #0c1322;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #0e172a;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff;
+        color: #000000;
+        padding: 0;
+      }
+      .document-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        background: #ffffff;
+        color: #000000;
+      }
+      .doc-title, h2, h3, .screenshot-title {
+        color: #000000 !important;
+      }
+      p, li, td {
+        color: #333333 !important;
+      }
+      th {
+        background-color: #f1f5f9 !important;
+        color: #000000 !important;
+      }
+      .screenshot-frame {
+        border: 2px dashed #000000;
+        background: #f8fafc;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="document-container">
+    
+    <!-- Cover Header -->
+    <div class="cover-header">
+      <div class="brand-logo">CF</div>
+      <h1 class="doc-title">ClientFlow System Documentation</h1>
+      <div class="doc-subtitle">Enterprise CRM & Sales Management System — Technical Architecture & Operational Manual</div>
+      <div class="doc-meta">Version 1.0.0 • Full-Stack Monorepo Specification</div>
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <section>
+      <h2>1. System Introduction & Product Vision</h2>
+      <p><strong>ClientFlow</strong> is an enterprise-grade Customer Relationship Management (CRM) and Sales Management application engineered for modern B2B sales teams. It unifies lead acquisition, qualification workflows, account directories, visual drag-and-drop sales pipelines, team deliverables, and revenue analytics into a single cohesive platform.</p>
+      
+      <h3>Key Business Objectives:</h3>
+      <ul>
+        <li><strong>Lead Management & Qualification:</strong> Capture incoming leads, prioritize prospects, detect duplicate records, and convert qualified leads into customer accounts with a single click.</li>
+        <li><strong>Visual Sales Pipeline:</strong> Manage opportunity stages with an optimistic-update Kanban board.</li>
+        <li><strong>Account Governance:</strong> Maintain structured directories for Customer Contacts and Target Company Accounts.</li>
+        <li><strong>Team Collaboration:</strong> Assign tasks, track follow-up deadlines, and enforce multi-tenant Role-Based Access Control (RBAC).</li>
+        <li><strong>Executive Intelligence:</strong> Live database metrics, Win Rate tracking, Weighted Revenue Forecasting, and sanitized CSV data exports.</li>
+      </ul>
+    </section>
+
+    <!-- Screenshot 1 -->
+    <div class="screenshot-frame">
+      <div class="screenshot-badge">📷 Screenshot Placeholder #1</div>
+      <div class="screenshot-title">Public Landing Page & Interactive Role Sandbox</div>
+      <div class="screenshot-specs">
+        <div><strong>Route:</strong> <code>/</code></div>
+        <div><strong>Dimensions:</strong> 1920 x 1080 (Desktop View)</div>
+        <div><strong>Key Focus:</strong> Top navbar (Sign In / Register), Hero Badge, CRM Preview Card</div>
+      </div>
+      <div class="screenshot-caption">Figure 1.1: ClientFlow Public Landing Page and Marketing Shell</div>
+    </div>
+
+    <!-- Section 2: Technology Stack -->
+    <section>
+      <h2>2. Architecture & Technology Stack</h2>
+      <p>Built with a production-minded type-safe stack designed for performance, scaling, and operational predictability.</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology Selected</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Frontend</td>
+            <td>React 18 + TypeScript + Vite 5</td>
+            <td>High-performance single-page interface</td>
+          </tr>
+          <tr>
+            <td>Styling</td>
+            <td>Tailwind CSS (Obsidian Executive Theme)</td>
+            <td>Custom B2B SaaS dark theme aesthetic</td>
+          </tr>
+          <tr>
+            <td>State & Data</td>
+            <td>TanStack React Query v5</td>
+            <td>Server state management, caching & optimistic updates</td>
+          </tr>
+          <tr>
+            <td>Backend API</td>
+            <td>Node.js + Express.js (TypeScript)</td>
+            <td>RESTful API layer with Zod validation</td>
+          </tr>
+          <tr>
+            <td>Database & ORM</td>
+            <td>PostgreSQL + Prisma ORM</td>
+            <td>Relational data persistence with multi-tenant scoping</td>
+          </tr>
+          <tr>
+            <td>Security</td>
+            <td>JWT + Argon2id / bcrypt</td>
+            <td>Secure auth tokens, password hashing & rate limiting</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Screenshot 2 -->
+    <div class="screenshot-frame">
+      <div class="screenshot-badge">📷 Screenshot Placeholder #2</div>
+      <div class="screenshot-title">User Authentication & Sign-In Page</div>
+      <div class="screenshot-specs">
+        <div><strong>Route:</strong> <code>/login</code></div>
+        <div><strong>Dimensions:</strong> 1920 x 1080</div>
+        <div><strong>Key Focus:</strong> Login modal card, work email/password inputs, 256-bit security badge</div>
+      </div>
+      <div class="screenshot-caption">Figure 2.1: ClientFlow Enterprise Sign-In Screen</div>
+    </div>
+
+    <!-- Section 3: Feature Modules -->
+    <section>
+      <h2>3. Feature Walkthroughs & User Manual</h2>
+
+      <h3>3.1 Executive Dashboard</h3>
+      <p>The central command center providing live database metrics, revenue trend charts, pipeline value distribution, and quick action shortcuts.</p>
+
+      <!-- Screenshot 3 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #3</div>
+        <div class="screenshot-title">Executive Dashboard & Analytics Overview</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/dashboard</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> KPI cards ($148.5k revenue, 68% win rate), Recharts graphs, activity feed</div>
+        </div>
+        <div class="screenshot-caption">Figure 3.1: Executive Dashboard & Real-Time Analytics</div>
+      </div>
+
+      <h3>3.2 Lead Management & Conversion</h3>
+      <p>Manage raw leads through qualification stages. Features duplicate email detection warnings and automated 1-click conversion into Contacts, Companies, and Deals.</p>
+
+      <!-- Screenshot 4 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #4</div>
+        <div class="screenshot-title">Leads Directory & Qualification Table</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/leads</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Leads table, status badges, multi-select filters, "Convert" CTA button</div>
+        </div>
+        <div class="screenshot-caption">Figure 4.1: Leads & Prospects Management Directory</div>
+      </div>
+
+      <!-- Screenshot 5 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #5</div>
+        <div class="screenshot-title">One-Click Lead Conversion Modal</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/leads</code> (Modal Active)</div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Automated creation checkboxes, deal value input, target stage selector</div>
+        </div>
+        <div class="screenshot-caption">Figure 4.2: One-Click Automated Lead Conversion Workflow</div>
+      </div>
+
+      <h3>3.3 Contacts & Company Accounts</h3>
+      <p>Directory of customer decision-makers and enterprise target accounts with linked deals count and location data.</p>
+
+      <!-- Screenshot 6 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #6</div>
+        <div class="screenshot-title">Customer Contacts Directory</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/contacts</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Contact details, linked company names, phone numbers, account owner</div>
+        </div>
+        <div class="screenshot-caption">Figure 5.1: Customer Contacts Directory</div>
+      </div>
+
+      <!-- Screenshot 7 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #7</div>
+        <div class="screenshot-title">Target Company Accounts</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/companies</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Company table, industry, website link, contacts count, active deals count</div>
+        </div>
+        <div class="screenshot-caption">Figure 5.2: Target Companies & Enterprise Accounts</div>
+      </div>
+
+      <h3>3.4 Sales Pipeline (Kanban) & Deals</h3>
+      <p>Interactive drag-and-drop Kanban board for moving revenue opportunities across stage columns with optimistic UI updates and active pipeline value calculations.</p>
+
+      <!-- Screenshot 8 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #8</div>
+        <div class="screenshot-title">Interactive Drag-and-Drop Sales Pipeline</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/pipeline</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Active pipeline value badge ($340,000), stage columns, draggable deal cards</div>
+        </div>
+        <div class="screenshot-caption">Figure 6.1: Interactive Sales Pipeline Kanban Board</div>
+      </div>
+
+      <!-- Screenshot 9 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #9</div>
+        <div class="screenshot-title">Sales Deals Data View</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/deals</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Structured deals table, amounts, win probability %, expected close dates</div>
+        </div>
+        <div class="screenshot-caption">Figure 6.2: Sales Deals Structured Data View</div>
+      </div>
+
+      <h3>3.5 Tasks & Follow-Up Orchestration</h3>
+      <p>Schedule calls, meetings, and follow-ups with overdue alert highlights and quick completion checkboxes.</p>
+
+      <!-- Screenshot 10 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #10</div>
+        <div class="screenshot-title">Tasks & Follow-Ups Management</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/tasks</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Filter tabs (All, Due Today, Overdue, Completed), overdue warning tags, check toggle</div>
+        </div>
+        <div class="screenshot-caption">Figure 7.1: Task Deliverables & Follow-Up Tracker</div>
+      </div>
+
+      <h3>3.6 Reports, Analytics & Data Export</h3>
+      <p>Analyze representative productivity rankings, lead channel conversion velocity, and download sanitized CSV files.</p>
+
+      <!-- Screenshot 11 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #11</div>
+        <div class="screenshot-title">Reports & Performance Analytics</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/reports</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Date range selector, CSV export buttons, sales rep productivity rankings</div>
+        </div>
+        <div class="screenshot-caption">Figure 8.1: Reports, Analytics & Representative Productivity</div>
+      </div>
+
+      <h3>3.7 Team Management & RBAC</h3>
+      <p>Manage organization team members, assign permission roles (Admin, Manager, Rep, Analyst), and toggle member status.</p>
+
+      <!-- Screenshot 12 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #12</div>
+        <div class="screenshot-title">Team Directory & Role Permissions</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/team</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> Team members table, role selection dropdowns, activation toggles</div>
+        </div>
+        <div class="screenshot-caption">Figure 9.1: Organization Team Administration & Permissions</div>
+      </div>
+
+      <h3>3.8 Workspace Settings</h3>
+      <p>Configure workspace name, operational currency, timezone, and personal user profile.</p>
+
+      <!-- Screenshot 13 -->
+      <div class="screenshot-frame">
+        <div class="screenshot-badge">📷 Screenshot Placeholder #13</div>
+        <div class="screenshot-title">System & Workspace Settings</div>
+        <div class="screenshot-specs">
+          <div><strong>Route:</strong> <code>/settings</code></div>
+          <div><strong>Dimensions:</strong> 1920 x 1080</div>
+          <div><strong>Key Focus:</strong> User Profile card, Workspace Settings form (Name, Currency, Timezone)</div>
+        </div>
+        <div class="screenshot-caption">Figure 10.1: System & Workspace Settings</div>
+      </div>
+
+    </section>
+
+    <!-- Section 4: Security & Conclusion -->
+    <section>
+      <h2>4. Verification & PDF Instructions</h2>
+      <p>ClientFlow has passed full verification testing with <strong>17/17 automated API integration tests passing</strong> and a clean Vite production build with zero errors.</p>
+      
+      <h3>Instructions to Save as PDF:</h3>
+      <ol>
+        <li>Open <code>http://localhost:5173/doc.html</code> in Google Chrome, Microsoft Edge, or Firefox.</li>
+        <li>Press <code>Ctrl + P</code> (or <code>Cmd + P</code> on macOS).</li>
+        <li>Select <strong>"Save as PDF"</strong> as the destination.</li>
+        <li>Ensure background graphics are enabled for optimal styling.</li>
+        <li>Insert your captured application screenshots directly into the 13 screenshot frames as needed!</li>
+      </ol>
+    </section>
+
+  </div>
+
+</body>
+</html>

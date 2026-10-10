@@ -1,0 +1,24 @@
+{
+  "name": "clientflow-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:api": "npm run dev --workspace=@clientflow/api",
+    "dev:web": "npm run dev --workspace=@clientflow/web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:generate": "npm run db:generate --workspace=@clientflow/api",
+    "db:push": "npm run db:push --workspace=@clientflow/api",
+    "db:seed": "npm run db:seed --workspace=@clientflow/api"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.4.5"
+  }
+}
