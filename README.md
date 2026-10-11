@@ -13,6 +13,24 @@
 
 ---
 
+## Live Demo
+
+- **Website:** https://clientflow-sales-management.vercel.app
+- **API health check:** https://clientflow-api-ss8n.onrender.com/api/v1/health
+
+The live demo uses a sample organization, **Abay Commerce Group**, with Ethiopian names and companies and amounts in Ethiopian birr (ETB). All people and companies are fictional.
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| Organization Admin | `abebe.bekele@abaydemo.example` | `AbayDemo2026!` |
+| Sales Manager | `selamawit.tesfaye@abaydemo.example` | `AbayDemo2026!` |
+| Sales Representative | `dawit.alemu@abaydemo.example` | `AbayDemo2026!` |
+| Read-Only Analyst | `yohannes.haile@abaydemo.example` | `AbayDemo2026!` |
+
+> **Note:** the demo runs on free hosting. If nobody has used it for a while, the first request can take up to a minute while the API wakes up. The demo data is shared, so other visitors may change it.
+
+---
+
 ## 📌 Table of Contents
 - [1. Executive Overview](#1-executive-overview)
 - [2. Key Features & Capabilities](#2-key-features--capabilities)
@@ -25,7 +43,8 @@
 - [9. API Endpoint Reference](#9-api-endpoint-reference)
 - [10. Testing & Quality Assurance](#10-testing--quality-assurance)
 - [11. Security & Compliance](#11-security--compliance)
-- [12. License](#12-license)
+- [12. Deployment](#12-deployment)
+- [13. License](#13-license)
 
 ---
 
@@ -129,7 +148,7 @@ ClientFlow is built as a type-safe TypeScript monorepo combining a modern React 
 ### Backend (`apps/api`)
 - **Runtime:** Node.js + Express.js in TypeScript
 - **Database ORM:** Prisma ORM with PostgreSQL
-- **Authentication:** JWT Bearer tokens + Argon2id / bcrypt password hashing (12 salt rounds)
+- **Authentication:** JWT Bearer tokens + bcrypt password hashing (12 salt rounds)
 - **Validation:** Zod request body, query, and parameter middleware
 - **Security:** Helmet, CORS, Express-Rate-Limit, SQL Injection prevention via Prisma, and CSV formula sanitation
 
@@ -147,7 +166,7 @@ clientflow/
 │   │   ├── public/                  # Public assets & interactive documentation
 │   │   │   └── doc.html             # Printable HTML documentation & PDF export
 │   │   └── src/
-│   │       ├── api/                 # Axios-based API client with auto-refresh
+│   │       ├── api/                 # Fetch-based API client with automatic token refresh
 │   │       ├── components/          # Common UI components (Button, Modal, Card, Badge, etc.)
 │   │       ├── context/             # AuthContext, ToastContext
 │   │       ├── layouts/             # AppShell (Sidebar, Topbar, Global Search)
@@ -305,7 +324,7 @@ npm run test --workspace=@clientflow/api
 npm run build
 ```
 
-- **Integration Tests:** 17/17 integration tests passing (`Supertest` + `Jest`).
+- **Integration Tests:** 17/17 integration tests passing (`Supertest` + `Vitest`).
 - **Production Build:** Clean Vite build output (`dist/assets/index-EZpBYn_m.js`) with zero compiler or linting errors.
 
 ---
@@ -313,14 +332,48 @@ npm run build
 ## 11. Security & Compliance
 
 - **Multi-Tenant Data Isolation:** Tenant scoping enforced at the database query level via authenticated JWT claims.
-- **Password Security:** Argon2id / bcrypt hashing with 12 salt rounds; plaintext passwords are never logged or stored.
+- **Password Security:** bcrypt hashing with 12 salt rounds; plaintext passwords are never logged or stored.
 - **Formula Injection Prevention:** CSV export values prefix formulas (`=`, `+`, `-`, `@`) with single quotes to protect spreadsheet users.
 - **Rate Limiting:** Protects `/auth/login` and `/auth/register` endpoints against brute-force attacks.
 - **Input Validation:** Zod schemas validate both incoming API requests and frontend form submissions.
 
 ---
 
-## 12. License
+## 12. Deployment
+
+The live demo runs on three free services:
+
+| Part | Service | Notes |
+| :--- | :--- | :--- |
+| Website (`apps/web`) | Vercel | `vercel.json` forwards `/api` requests to the API |
+| REST API (`apps/api`) | Render | Node web service |
+| Database | Neon | Serverless PostgreSQL |
+
+**API environment variables** (set in the hosting dashboard, never committed):
+
+| Variable | Description |
+| :--- | :--- |
+| `NODE_ENV` | `production` |
+| `DATABASE_URL` | Neon pooled connection string, ending in `?sslmode=require&pgbouncer=true` |
+| `JWT_ACCESS_SECRET` | Long random string |
+| `JWT_REFRESH_SECRET` | A different long random string |
+| `FRONTEND_URL` | The deployed website address, used for CORS |
+| `AI_PROVIDER` | `mock` |
+
+In production, the API refuses to start if `DATABASE_URL` or either JWT secret is missing.
+
+**Render build command:** `npm install --include=dev && npm run build --workspace=@clientflow/shared && npx prisma generate --schema apps/api/prisma/schema.prisma && npm run build --workspace=@clientflow/api`
+
+**Render start command:** `npm run start --workspace=@clientflow/api`
+
+**Vercel settings:** preset `Other`, build command `npm run build --workspace=@clientflow/shared && npm run build --workspace=@clientflow/web`, output directory `apps/web/dist`.
+
+> The seed script (`npm run db:seed`) deletes existing data. Never run it against a production database.
+
+---
+
+
+## 13. License
 
 This project is licensed under the **MIT License**.
 You are free to use, modify, and distribute this codebase for portfolio demonstrations, freelance proposals, and commercial software development.
