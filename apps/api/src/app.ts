@@ -24,6 +24,9 @@ import aiRoutes from './modules/ai/ai.routes';
 export const createApp = () => {
   const app = express();
 
+  // Behind two proxies in production (Vercel, then Render)  <-- NEW LINE BELOW
+  app.set('trust proxy', 2);
+
   // Security Middleware
   app.use(helmet());
   app.use(
